@@ -103,24 +103,15 @@ class Reservations(webapp2.RequestHandler):
         if id:
             reservation = Reservation.query(
                 Reservation.id == id,
-                ancestor=DEFAULT_RESERVATION_TABLE
+                ancestor=reservations_key()
             ).fetch(1)
             if len(reservation) < 1:
                 self.redirect('/')
             if self.request.get('delete') == '1':
+                resource = get_resource_by_id(reservation[0].resource_id)
+                resource[0].key.delete()
                 reservation[0].key.delete()
                 self.redirect('/')
-            else:
-                can_delete = (
-                    users.get_current_user() and
-                    users.get_current_user().user_id() == reservation.user.user_id()
-                )
-                template_values = {
-                    'reservation' : reservation[0],
-                    'can_delete' : can_delete,
-                }
-                template = JINJA_ENVIRONMENT.get_template('reservation.html')
-                self.response.write(template.render(template_values))
         else:
             self.redirect('/')
 

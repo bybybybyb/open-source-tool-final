@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <!-- [START css] -->
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <!-- [END css] -->
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- [START reservations] -->
+    <h1>Open Source Tool Reservation System</h1>
+    <h2>Reservations</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>User Reserved</th>
+            <th>Start Time</th>
+            <th>Duration</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in my_reservations %}
+        <tr>
+            <td><a href="/resource?id={{ reservation.resource_id }}">{{reservation.resource_name}}</a></td>
+            <td>{{reservation.user_id}}</td>
+            <td>{{reservation.start_time}}</td>
+            <td>{{reservation.duration}}</td>
+            <td><a href="/reservation?id={{ reservation.id }}&delete=1" class="btn btn-warning">Delete</a> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- [END reservations] -->
+
+    <!-- [START resources] -->
+    <h2>All Resources</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>Available Since</th>
+            <th>Available Till</th>
+            <th>Last Reserved At</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resource in all_resources %}
+        <tr>
+            <td><a href="/resource?id={{ resource.id }}">{{resource.name}}</a></td>
+            <td>{{resource.start_time}}</td>
+            <td>{{resource.end_time}}</td>
+            <td>{{resource.last_reservation_time}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- [END resources] -->
+
+    <!-- [START my resources] -->
+    <h2>My Resources</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>Available Since</th>
+            <th>Available Till</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resource in my_resources %}
+        <tr>
+            <td><a href="/edit-resource?id={{ resource.id }}">{{resource.name}}</a></td>
+            <td>{{resource.start_time}}</td>
+            <td>{{resource.end_time}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- [END my resources] -->
+
+    <a href="/edit-resource?type=create">New Resource</a>
+    <hr>
+    <a href="{{ url|safe }}" class="navbar-toggler-right btn btn-outline-danger">Logout</a>
+</div>
+</body>
+</html>
+{% endautoescape %}
