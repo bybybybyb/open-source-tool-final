@@ -8,7 +8,6 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 import jinja2
 import webapp2
-import PyRSS2Gen
 
 from entities import Reservation
 from entities import Resource
