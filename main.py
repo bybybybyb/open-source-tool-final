@@ -241,9 +241,10 @@ class CreateResource(webapp2.RequestHandler):
             id = self.request.get('resource_id')
             resource_fetch = get_resource_by_id(id)
             resource = Resource(parent=resources_key())
-            if id and len(resource_fetch) > 0:
+            if not id == "None" and len(resource_fetch) > 0:
                 resource = resource_fetch[0]
-            resource.id = str(uuid.uuid1()) if not id else id
+            else:
+                resource.id = str(uuid.uuid1())
             resource.user_id = str(users.get_current_user().user_id())
             resource.name = self.request.get('name')
             resource.start_time = datetime.strptime(self.request.get('start_time', '00:00'),'%H:%M:%S').time()
@@ -286,18 +287,13 @@ class ResourceDetail(webapp2.RequestHandler):
                     self.response.write(to_RSS(resource[0]))
                     return
                 can_edit = str(users.get_current_user().user_id()) == resource[0].user_id
-                # reservations = []
-                # for reservation_id in resource.reservation_ids:
-                #     reservation = Reservation.query(Reservation.id == reservation_id).fetch(1)
-                #     if reservation:
-                #         reservations.append(reservation)
                 template_values = {
                     'resource' : resource[0],
-                    # 'reservations' : reservations,
                     'can_edit' : can_edit
                 }
                 template = JINJA_ENVIRONMENT.get_template('resource.html')
                 self.response.write(template.render(template_values))
+
 class UserDetail(webapp2.RequestHandler):
     def get(self):
         id = self.request.get('id')
