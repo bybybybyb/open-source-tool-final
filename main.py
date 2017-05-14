@@ -12,7 +12,7 @@ import webapp2
 from entities import Reservation
 from entities import Resource
 from entities import Tag
-import helpers
+import PyRSS2Gen
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -21,6 +21,23 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 DEFAULT_RESERVATION_TABLE = "reservations"
 DEFAULT_RESOURCE_TABLE = "resources"
+
+def to_RSS(resource):
+    rss = PyRSS2Gen.RSS2(
+        title = resource.name,
+        link = "resource?rssid=" + str(resource.id),
+        description = "RSS feed for resource " + resource.name,
+        lastBuildDate = datetime.utcnow(),
+
+        items = [
+            PyRSS2Gen.RSSItem(
+                title = reservation.user_id,
+                link = "/reservation?id=" + str(reservation.user_id),
+                description = "user " + reservation.user_id + "'s reservation",
+                guid = PyRSS2Gen.Guid(str(uuid.uuid1())),
+                pubDate = datetime.utcnow())
+        for reservation in resource.reservations ])
+    return rss.to_xml()
 
 def reservations_key(reservations_name=DEFAULT_RESERVATION_TABLE):
     return ndb.Key("Reservations", reservations_name)
@@ -265,6 +282,9 @@ class ResourceDetail(webapp2.RequestHandler):
             if len(resource) < 1:
                 self.redirect('/')
             else:
+                if self.request.get('rss') == '1':
+                    self.response.write(to_RSS(resource[0]))
+                    return
                 can_edit = str(users.get_current_user().user_id()) == resource[0].user_id
                 # reservations = []
                 # for reservation_id in resource.reservation_ids:

@@ -50,6 +50,7 @@
             <th>Available Since</th>
             <th>Available Till</th>
             <th>Last Reserved At</th>
+            <th>RSS</th>
         </tr>
         </thead>
         <tbody>
@@ -59,6 +60,7 @@
             <td>{{resource.start_time}}</td>
             <td>{{resource.end_time}}</td>
             <td>{{resource.last_reservation_time}}</td>
+            <td><a href="/resource?id={{ resource.id }}&rss=1" class="btn">RSS</a></td>
         </tr>
         {% endfor %}
         </tbody>
@@ -73,6 +75,7 @@
             <th>Resource</th>
             <th>Available Since</th>
             <th>Available Till</th>
+            <th>RSS</th>
         </tr>
         </thead>
         <tbody>
@@ -81,6 +84,7 @@
             <td><a href="/edit-resource?id={{ resource.id }}">{{resource.name}}</a></td>
             <td>{{resource.start_time}}</td>
             <td>{{resource.end_time}}</td>
+            <td><a href="/resource?id={{ resource.id }}&rss=1" class="btn">RSS</a></td>
         </tr>
         {% endfor %}
         </tbody>
