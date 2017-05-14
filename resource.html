@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <style type="text/css">
+        body {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+    </style>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1><a href="/">Open Source Tool Reservation System</a></h1>
+    <h2>Upcoming Reservations</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>User</th>
+            <th>Start Time</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in resource.reservations %}
+        <tr>
+            <td><a href="/resource?id={{ reservation.resource_id }}">{{reservation.resource_name}}</a></td>
+            <td>{{reservation.user_id}}</td>
+            <td>{{reservation.start_time}}</td>
+            <td>{{reservation.duration}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="/create-reservation?id={{resource.id}}" class="btn">Reserve</a>
+    {% if can_edit %}
+    <a href="/edit-resource?id={{resource.id}}&type=edit" class="btn">Edit</a>
+    {% endif %}
+</div>
+</body>
+</html>
+{% endautoescape %}

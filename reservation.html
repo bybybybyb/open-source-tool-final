@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <!-- [START css] -->
+    <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <!-- [END css] -->
+    <style type="text/css">
+        body {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><a href="/">Open Source Tool Reservation System</a></h1>
+    <!-- [START reservations] -->
+    <h2>Reservation</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>User</th>
+            <th>Start Time</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>reservation.resource_name</td>
+            <td>reservation.user.email()</td>
+            <td>reservation.start_time</td>
+            <td>reservation.duration</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- [END reservations] -->
+    {% if can_delete %}
+    <a href="/reservation?id={{reservation.id}}&delete=1">Delete</a>
+    {% endif %}
+</div>
+</body>
+</html>
+{% endautoescape %}
