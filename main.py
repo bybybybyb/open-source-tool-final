@@ -278,6 +278,25 @@ class ResourceDetail(webapp2.RequestHandler):
                 }
                 template = JINJA_ENVIRONMENT.get_template('resource.html')
                 self.response.write(template.render(template_values))
+class UserDetail(webapp2.RequestHandler):
+    def get(self):
+        id = self.request.get('id')
+        if not id:
+            self.redirect('/')
+        else:
+            resources = Resource.query(
+                Resource.user_id == id
+            ).fetch()
+            reservations = Reservation.query(
+                Reservation.user_id == id
+            ).fetch()
+            template_values = {
+                'id' : id,
+                'my_resources' : resources,
+                'my_reservations' : reservations
+            }
+            template = JINJA_ENVIRONMENT.get_template('user.html')
+            self.response.write(template.render(template_values))
 
 def clean():
     for resource in get_resources():
@@ -291,5 +310,6 @@ app = webapp2.WSGIApplication([
     ('/create-reservation', CreateReservation),
     ('/resource', ResourceDetail),
     ('/edit-resource', CreateResource),
+    ('/user', UserDetail)
 ], debug=True)
 

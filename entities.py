@@ -15,7 +15,7 @@ class Reservation(ndb.Model):
 
 class Resource(ndb.Model):
     id = ndb.StringProperty(indexed=True)
-    user_id = ndb.StringProperty(indexed=False)
+    user_id = ndb.StringProperty(indexed=True)
     name = ndb.StringProperty(indexed=False)
     start_time = ndb.TimeProperty(default=time.min, indexed=True)
     end_time = ndb.TimeProperty(default=time.max, indexed=True)
