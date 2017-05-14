@@ -1,10 +1,13 @@
 # open-source-tool-final
 
-I tried to deploy onto GAE but there seems exist some problems on indexes which may still be generating. The deployed website is using UTC time.
+I tried to deploy onto GAE but there seems exist some problems on indexes which may still be generating. The deployed website on GAE is using UTC time.
+RSS has been committed on the Experiment branch.
+
 https://opensourcetoolproj-by653.appspot.com/
+https://github.com/ylns1314/open-source-tool-final
 
 ## Structure
-### HTMLs
+### HTML
   * index: the landing page with 3 different lists (all upcoming own reservations, all resources and my resources)
   * user: the profile page of a user showing all upcoming own reservations and own resources
   * reservation: detailed reservation page but seldom being used: most functions related to reservations have been embedded into the landing page
